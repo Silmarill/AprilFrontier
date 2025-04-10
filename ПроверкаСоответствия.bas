@@ -1,69 +1,69 @@
 Attribute VB_Name = "NewMacros"
-Sub ПроверкаСоответствияТребованиям()
+Sub РџСЂРѕРІРµСЂРёС‚СЊР¤РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ()
 
     Dim doc As Document
     Set doc = ActiveDocument
 
     Dim issues As String
-    issues = "Проверка требований:" & vbCrLf
+    issues = "РќР°Р№РґРµРЅРЅС‹Рµ РїСЂРѕР±Р»РµРјС‹:" & vbCrLf
 
-    ' 1. Проверка шрифта и размера
+    ' 1. РџСЂРѕРІРµСЂРєР° С€СЂРёС„С‚Р° Рё СЂР°Р·РјРµСЂР°
     Dim para As Paragraph
     For Each para In doc.Paragraphs
         With para.Range.Font
             If .Name <> "Times New Roman" Then
-                issues = issues & "- Обнаружен другой шрифт: " & .Name & vbCrLf
+                issues = issues & "- РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ С€СЂРёС„С‚: " & .Name & vbCrLf
             End If
             If .Size <> 12 Then
-                issues = issues & "- Обнаружен другой размер шрифта: " & .Size & vbCrLf
+                issues = issues & "- РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ СЂР°Р·РјРµСЂ С€СЂРёС„С‚Р°: " & .Size & vbCrLf
             End If
         End With
     Next para
 
-    ' 2. Проверка межстрочного интервала
+    ' 2. РџСЂРѕРІРµСЂРєР° РјРµР¶СЃС‚СЂРѕС‡РЅРѕРіРѕ РёРЅС‚РµСЂРІР°Р»Р°
     For Each para In doc.Paragraphs
         If para.LineSpacingRule <> wdLineSpaceSingle Then
-            issues = issues & "- Обнаружен не одинарный межстрочный интервал" & vbCrLf
+            issues = issues & "- РќР°СЂСѓС€РµРЅ РѕРґРёРЅР°СЂРЅС‹Р№ РјРµР¶СЃС‚СЂРѕС‡РЅС‹Р№ РёРЅС‚РµСЂРІР°Р»" & vbCrLf
             Exit For
         End If
     Next para
 
-    ' 3. Проверка полей страницы
+    ' 3. РџСЂРѕРІРµСЂРєР° РїРѕР»РµР№ СЃС‚СЂР°РЅРёС†С‹
     With doc.PageSetup
-        If .TopMargin <> CentimetersToPoints(1.5) Then issues = issues & "- Верхнее поле не 15 мм" & vbCrLf
-        If .BottomMargin <> CentimetersToPoints(1.5) Then issues = issues & "- Нижнее поле не 15 мм" & vbCrLf
-        If .LeftMargin <> CentimetersToPoints(2) Then issues = issues & "- Левое поле не 20 мм" & vbCrLf
-        If .RightMargin <> CentimetersToPoints(2) Then issues = issues & "- Правое поле не 20 мм" & vbCrLf
-        If .Orientation <> wdOrientPortrait Then issues = issues & "- Не книжная ориентация" & vbCrLf
+        If .TopMargin <> CentimetersToPoints(1.5) Then issues = issues & "- Р’РµСЂС…РЅРµРµ РїРѕР»Рµ РЅРµ 1.5 СЃРј" & vbCrLf
+        If .BottomMargin <> CentimetersToPoints(1.5) Then issues = issues & "- РќРёР¶РЅРµРµ РїРѕР»Рµ РЅРµ 1.5 СЃРј" & vbCrLf
+        If .LeftMargin <> CentimetersToPoints(2) Then issues = issues & "- Р›РµРІРѕРµ РїРѕР»Рµ РЅРµ 2 СЃРј" & vbCrLf
+        If .RightMargin <> CentimetersToPoints(2) Then issues = issues & "- РџСЂР°РІРѕРµ РїРѕР»Рµ РЅРµ 2 СЃРј" & vbCrLf
+        If .Orientation <> wdOrientPortrait Then issues = issues & "- РќРµ РєРЅРёР¶РЅР°СЏ РѕСЂРёРµРЅС‚Р°С†РёСЏ СЃС‚СЂР°РЅРёС†С‹" & vbCrLf
     End With
 
-    ' 4. Абзацный отступ
+    ' 4. РџСЂРѕРІРµСЂРєР° Р°Р±Р·Р°С†РЅРѕРіРѕ РѕС‚СЃС‚СѓРїР°
     For Each para In doc.Paragraphs
-        If para.LeftIndent <> CentimetersToPoints(0.75) And para.Style = "Обычный" Then
-            issues = issues & "- Абзацный отступ не 0.75 см в стиле 'Обычный'" & vbCrLf
+        If para.LeftIndent <> CentimetersToPoints(0.75) And para.Style = "РћР±С‹С‡РЅС‹Р№" Then
+            issues = issues & "- РђР±Р·Р°С†РЅС‹Р№ РѕС‚СЃС‚СѓРї РЅРµ 0.75 СЃРј РІ СЃС‚РёР»Рµ 'РћР±С‹С‡РЅС‹Р№'" & vbCrLf
             Exit For
         End If
     Next para
 
-    ' 5. Проверка на колонтитулы, сноски, нумерацию
+    ' 5. РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ СЃРЅРѕСЃРѕРє, РєРѕР»РѕРЅС‚РёС‚СѓР»РѕРІ
     If doc.Footnotes.Count > 0 Then
-        issues = issues & "- Документ содержит сноски" & vbCrLf
+        issues = issues & "- РћР±РЅР°СЂСѓР¶РµРЅС‹ СЃРЅРѕСЃРєРё" & vbCrLf
     End If
     If doc.Sections(1).Footers(wdHeaderFooterPrimary).Exists Then
         If doc.Sections(1).Footers(wdHeaderFooterPrimary).Range.Text <> "" Then
-            issues = issues & "- Документ содержит нижние колонтитулы" & vbCrLf
+            issues = issues & "- РћР±РЅР°СЂСѓР¶РµРЅ РЅРёР¶РЅРёР№ РєРѕР»РѕРЅС‚РёС‚СѓР»" & vbCrLf
         End If
     End If
     If doc.Sections(1).Headers(wdHeaderFooterPrimary).Exists Then
         If doc.Sections(1).Headers(wdHeaderFooterPrimary).Range.Text <> "" Then
-            issues = issues & "- Документ содержит верхние колонтитулы" & vbCrLf
+            issues = issues & "- РћР±РЅР°СЂСѓР¶РµРЅ РІРµСЂС…РЅРёР№ РєРѕР»РѕРЅС‚РёС‚СѓР»" & vbCrLf
         End If
     End If
 
-    ' 6. Нумерация страниц
+    ' 6. РџСЂРѕРІРµСЂРєР° РЅРѕРјРµСЂРѕРІ СЃС‚СЂР°РЅРёС†
     If doc.Sections(1).Footers(wdHeaderFooterPrimary).PageNumbers.Count > 0 Then
-        issues = issues & "- Обнаружена нумерация страниц" & vbCrLf
+        issues = issues & "- РћР±РЅР°СЂСѓР¶РµРЅС‹ РЅРѕРјРµСЂР° СЃС‚СЂР°РЅРёС†" & vbCrLf
     End If
 
-    MsgBox issues, vbInformation, "Результаты проверки"
+    MsgBox issues, vbInformation, "Р РµР·СѓР»СЊС‚Р°С‚С‹ РїСЂРѕРІРµСЂРєРё"
 End Sub
